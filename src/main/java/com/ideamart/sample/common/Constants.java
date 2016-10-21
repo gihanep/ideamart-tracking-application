@@ -31,5 +31,25 @@ public final class Constants {
 
         //Specific Version
         public static final String VERSION = "1.0";
+
+        public static final String LBS_URL = "http://127.0.0.1:7000/lbs/locate";
+    }
+
+    public static final class ApplicationMessages {
+        public static final String WELCOME_MSG = "1. Subscribe\n99. Exit";
+        public static final String SUBSCRIBE_MESSAGE = "1. Search Location\n2. Register For Pin\n3. Forget Pin\n4. Help\n5. Contact us\n0. Back\n99. Exit";
+        public static final String SEARCH_LOCATION = "obata soyanna awashya kenage pin ankaya athulath karanna";
+        public static final String REGISTER_FOR_PIN = "keti paniwidayakin obe pin ankaya labenu atha.\n" +
+                "0. Back\n" +
+                "99. Exit";
+        public static final String HELP_MESSAGE = "Keti Paniwidayak Magein Siyalu Thorathuru Labenu Atha.\n0. Back\n99. Exit";
+        public static final String CONTACT = "Sp Name:-S.M.P.K Senevirathna\n" +
+                "       App Developer Details: tharinda221@gmail.com.\n" +
+                "       \n0. Back\n99.Exit";
+        public static final String HELP_SMS = "welcome to (app eke name) ussd application.\n" +
+                "               Inna Thana Balaganimata :- (app keyword) <space> GPS <space> oba soyana kenage Pin Ankaya.\n" +
+                "               sent to(app number)\n";
+        public static final String ExIT_MESSAGE = "Thank you for using. come again!";
+
     }
 }

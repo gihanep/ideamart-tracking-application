@@ -16,10 +16,10 @@
 package com.ideamart.sample.sms.operations;
 
 import com.ideamart.sample.common.Constants;
-import com.ideamart.sample.sms.db.dbClass;
+import com.ideamart.sample.lbs.LBS;
 import com.ideamart.sample.sms.send.SendMessage;
+import com.ideamart.sample.usermgt.UserDAO;
 import hms.kite.samples.api.sms.messages.MoSmsReq;
-import java.util.HashMap;
 
 /**
  * This class is created for do operations for messages.
@@ -30,6 +30,29 @@ public class Operations {
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.SendMessage("Message received",moSmsReq.getApplicationId(),moSmsReq.getSourceAddress()
-                , Constants.ReceiverConstants.PASSWORD,Constants.ReceiverConstants.SMS_URL);
+                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
+    }
+
+    public void getLocation(String userAddress, String pin) throws Exception {
+        UserDAO userDAO = new UserDAO();
+        userDAO.updateCount(userAddress);
+        String address = userDAO.getUserAddressByPin(pin);
+        if(address.equals("null")) {
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.SendMessage("Pin you Entered is not registered", Constants.ApplicationConstants.APP_ID , userAddress
+                    , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
+        } else {
+            LBS lbs = new LBS();
+            String finalMessage = lbs.getLocation(address);
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.SendMessage(finalMessage, Constants.ApplicationConstants.APP_ID , userAddress
+                    , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
+        }
+    }
+
+    public void errorMessage(String address) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.SendMessage("Message format error", Constants.ApplicationConstants.APP_ID , address
+                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
     }
 }

@@ -30,9 +30,24 @@ public class Receiver implements MoSmsListener {
 
     @Override
     public void onReceivedSms(MoSmsReq moSmsReq) {
-        String message = moSmsReq.getMessage();
-        String [] messageParts = message.split(" ");
-        Operations operations = new Operations();
-        operations.passToDatabase(moSmsReq);
+
+        try {
+            String message = moSmsReq.getMessage();
+            String [] messageParts = message.split(" ");
+            String operation = messageParts[1].toLowerCase();
+            Operations operations = new Operations();
+
+            if(operation.equals("gps")) {
+                operations.getLocation(moSmsReq.getSourceAddress(), messageParts[2]);
+            } else {
+                operations.errorMessage(moSmsReq.getSourceAddress());
+            }
+        } catch (Exception e) {
+            Operations operations = new Operations();
+            operations.errorMessage(moSmsReq.getSourceAddress());
+            e.printStackTrace();
+
+        }
+
     }
 }

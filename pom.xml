@@ -28,6 +28,13 @@
 			<systemPath>${ideamart.lib}/sdp.app.api-1.0.183-SNAPSHOT.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>hms</groupId>
+			<artifactId>sdp.app.api</artifactId>
+			<version>1.0.11-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${ideamart.lib}/sdp.app.api-1.0.144.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
@@ -49,7 +56,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.22</version>
 		</dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+
+	</dependencies>
 	<build>
 		<finalName>ideamart-ussd-tracking-application</finalName>
 		<plugins>
