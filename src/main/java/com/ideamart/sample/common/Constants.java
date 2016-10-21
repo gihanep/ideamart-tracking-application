@@ -5,7 +5,7 @@ package com.ideamart.sample.common;
  */
 public final class Constants {
 
-    public static final class ReceiverConstants {
+    public static final class ApplicationConstants {
 
         public static final String USSD_OP_MO_INIT = "mo-init";
         public static final String USSD_OP_MT_CONT = "mt-cont";

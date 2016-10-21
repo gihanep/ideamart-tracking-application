@@ -31,7 +31,8 @@ public class Receiver implements MoSmsListener {
     @Override
     public void onReceivedSms(MoSmsReq moSmsReq) {
         String message = moSmsReq.getMessage();
-        Operations operations = new Operations(message);
+        String [] messageParts = message.split(" ");
+        Operations operations = new Operations();
         operations.passToDatabase(moSmsReq);
     }
 }
