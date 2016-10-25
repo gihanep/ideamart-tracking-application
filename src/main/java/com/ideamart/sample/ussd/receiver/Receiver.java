@@ -40,13 +40,22 @@ public class Receiver implements MoUssdListener {
         if (Constants.ApplicationConstants.USSD_OP_MO_INIT.equals(moUssdReq.getUssdOperation())) {
 
             try {
+                Subscription subscription = new Subscription();
+
                 if (!userDAO.userAvailability(moUssdReq.getSourceAddress())) {
                     User user = new User(moUssdReq.getSourceAddress(), null, "1", moUssdReq.getMessage(), 1);
                     userDAO.AddUser(user);
                 }
-                userDAO.updateFlow(moUssdReq.getSourceAddress(), "1");
-                MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.WELCOME_MSG, Constants.ApplicationConstants.USSD_OP_MT_CONT);
-                sendRequest(request);
+                if (subscription.getStatus(moUssdReq.getSourceAddress())) {
+                    userDAO.updateFlow(moUssdReq.getSourceAddress(), "2");
+                    MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.SUBSCRIBE_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
+                    sendRequest(request);
+                } else {
+                    userDAO.updateFlow(moUssdReq.getSourceAddress(), "1");
+                    MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.WELCOME_MSG, Constants.ApplicationConstants.USSD_OP_MT_CONT);
+                    sendRequest(request);
+                }
+
 
             } catch (SdpException e) {
                 e.printStackTrace();
@@ -86,25 +95,25 @@ public class Receiver implements MoUssdListener {
                             userDAO.AddUserPin(moUssdReq.getSourceAddress());
                         }
                         String pin = userDAO.getUserPinByAddress(moUssdReq.getSourceAddress());
-                        SendMessage sendMessage = new SendMessage();
-                        sendMessage.SendMessage("Your pin is: " + pin, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
-                                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
-                        MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.REGISTER_FOR_PIN, Constants.ApplicationConstants.USSD_OP_MT_CONT);
+//                        SendMessage sendMessage = new SendMessage();
+//                        sendMessage.SendMessage("Your pin is: " + pin, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
+//                                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
+                        MtUssdReq request = createRequest(moUssdReq, "Your pin is: " + pin + Constants.ApplicationMessages.USSD_COMMON_MSG, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
                     } else if (message.equals("3")) {
                         userDAO.updateFlow(moUssdReq.getSourceAddress(), "3");
                         String pin = userDAO.getUserPinByAddress(moUssdReq.getSourceAddress());
-                        SendMessage sendMessage = new SendMessage();
-                        sendMessage.SendMessage("Your pin is: " + pin, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
-                                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
-                        MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.REGISTER_FOR_PIN, Constants.ApplicationConstants.USSD_OP_MT_CONT);
+//                        SendMessage sendMessage = new SendMessage();
+//                        sendMessage.SendMessage("Your pin is: " + pin, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
+//                                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
+                        MtUssdReq request = createRequest(moUssdReq, "Your pin is: " + pin + Constants.ApplicationMessages.USSD_COMMON_MSG, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
                     } else if (message.equals("4")) {
                         userDAO.updateFlow(moUssdReq.getSourceAddress(), "3");
-                        SendMessage sendMessage = new SendMessage();
-                        sendMessage.SendMessage(Constants.ApplicationMessages.HELP_SMS, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
-                                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
-                        MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.HELP_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
+//                        SendMessage sendMessage = new SendMessage();
+//                        sendMessage.SendMessage(Constants.ApplicationMessages.HELP_SMS, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
+//                                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
+                        MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.HELP_USSD + Constants.ApplicationMessages.USSD_COMMON_MSG, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
                     } else if (message.equals("5")) {
                         userDAO.updateFlow(moUssdReq.getSourceAddress(), "3");
@@ -132,12 +141,12 @@ public class Receiver implements MoUssdListener {
                     } else {
                         userDAO.updateFlow(moUssdReq.getSourceAddress(), "3");
                         String address = userDAO.getUserAddressByPin(message);
-                        if(address.equals("null")) {
+                        if (address.equals("null")) {
                             MtUssdReq request = createRequest(moUssdReq, "Wrong pin\n0. Back\n99. Exit", Constants.ApplicationConstants.USSD_OP_MT_CONT);
                             sendRequest(request);
                         } else {
                             LBS lbs = new LBS();
-                            String finalMessage = lbs.getLocation(address)+ "\n0. Back\n99. Exit";
+                            String finalMessage = lbs.getLocation(address) + "\n0. Back\n99. Exit";
                             MtUssdReq request = createRequest(moUssdReq, finalMessage, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                             sendRequest(request);
                         }
