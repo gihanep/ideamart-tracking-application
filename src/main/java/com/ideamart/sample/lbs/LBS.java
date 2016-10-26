@@ -27,10 +27,11 @@ public class LBS {
         lbSbean.setApplicationId(Constants.ApplicationConstants.APP_ID);
         lbSbean.setPassword(Constants.ApplicationConstants.PASSWORD);
         lbSbean.setSubscriberId(address);
-        lbSbean.setFreshness("HIGH");
-        lbSbean.setHorizontalAccuracy("1500");
-        lbSbean.setResponseTime("NO_DELAY");
-        lbSbean.setVersion("2.0");
+        lbSbean.setFreshness(Constants.ApplicationConstants.LBS_FRESHNESS);
+        lbSbean.setHorizontalAccuracy(Constants.ApplicationConstants.LBS_ACCURACY);
+        lbSbean.setResponseTime(Constants.ApplicationConstants.LBS_DELAY);
+        lbSbean.setServiceType(Constants.ApplicationConstants.LBS_SERVICE_TYPE);
+        lbSbean.setVersion(Constants.ApplicationConstants.LBS_DELAY);
         String postUrl = Constants.ApplicationConstants.LBS_URL;
         Gson gson = new Gson();
         HttpClient httpClient = HttpClientBuilder.create().build();
@@ -44,6 +45,8 @@ public class LBS {
         InputStream inputStream = response.getEntity().getContent();
         Scanner s = new Scanner(inputStream).useDelimiter("\\A");
         String result = s.hasNext() ? s.next() : "";
+        System.out.println("LBS:result");
+        System.out.println(result);
         return getMessage(result);
 
     }
@@ -66,10 +69,12 @@ public class LBS {
         InputStream inputStream = response.getEntity().getContent();
         Scanner s = new Scanner(inputStream).useDelimiter("\\A");
         String result = s.hasNext() ? s.next() : "";
+        System.out.println("Google result");
+        System.out.println(result);
         JsonElement jelement = new JsonParser().parse(result);
         JsonObject jobject = jelement.getAsJsonObject();
         JsonArray array = jobject.getAsJsonArray("results");
-        String address = array.get(0).getAsJsonObject().get("formatted_address").toString().replaceAll("['\"]", "");
+        String address = array.get(1).getAsJsonObject().get("formatted_address").toString().replaceAll("['\"]", "");
         String mapURL = "http://maps.google.com/?ll=" + lat + "," + lon;
         return address + "\n" + mapURL;
 

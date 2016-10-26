@@ -74,6 +74,9 @@ public class Receiver implements MoUssdListener {
                         subscription.subscribeUser(moUssdReq.getSourceAddress());
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.SUBSCRIBE_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
+                        SendMessage sendMessage = new SendMessage();
+                        sendMessage.SendMessage(Constants.ApplicationMessages.WELCOME_SMS, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
+                                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
                     } else if (message.equals("99")) {
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.ExIT_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
@@ -146,9 +149,13 @@ public class Receiver implements MoUssdListener {
                             sendRequest(request);
                         } else {
                             LBS lbs = new LBS();
-                            String finalMessage = lbs.getLocation(address) + "\n0. Back\n99. Exit";
+                            String location = lbs.getLocation(address);
+                            String finalMessage = location + "\n0. Back\n99. Exit";
                             MtUssdReq request = createRequest(moUssdReq, finalMessage, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                             sendRequest(request);
+                            SendMessage sendMessage = new SendMessage();
+                            sendMessage.SendMessage("Your address is: " + location, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
+                                    , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
                         }
                     }
                 } else {

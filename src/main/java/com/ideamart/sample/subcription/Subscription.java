@@ -68,6 +68,7 @@ public class Subscription {
         InputStream inputStream = response.getEntity().getContent();
         Scanner s = new Scanner(inputStream).useDelimiter("\\A");
         String result = s.hasNext() ? s.next() : "";
+        System.out.println("Subscription status:");
         System.out.println(result);
         JsonElement jelement = new JsonParser().parse(result);
         JsonObject jobject = jelement.getAsJsonObject();
