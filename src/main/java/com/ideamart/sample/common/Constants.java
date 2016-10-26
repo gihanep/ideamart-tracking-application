@@ -73,7 +73,7 @@ public final class Constants {
                 "               sent to(app number)\n";
         public static final String WELCOME_SMS = "Obata avashya onama kenekge location eka balaganna #775*911# number " +
                 "eka save kara ganna";
-        public static final String HELP_USSD = "(number) dial kara Subscribe karanna -> Pin ekak ganna -> " +
+        public static final String HELP_USSD = "#775*911# dial kara Subscribe karanna -> Pin ekak ganna -> " +
                 "Location select karama oyage ho adala kenage pin eka athul karanna";
         public static final String ExIT_MESSAGE = "Thank you for using. come again!";
 

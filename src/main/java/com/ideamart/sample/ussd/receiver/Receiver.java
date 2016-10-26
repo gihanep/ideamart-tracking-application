@@ -2,6 +2,7 @@ package com.ideamart.sample.ussd.receiver;
 
 import com.ideamart.sample.common.Constants;
 import com.ideamart.sample.lbs.LBS;
+import com.ideamart.sample.sms.send.ScheduledMessage;
 import com.ideamart.sample.sms.send.SendMessage;
 import com.ideamart.sample.subcription.Subscription;
 import com.ideamart.sample.usermgt.User;
@@ -74,9 +75,8 @@ public class Receiver implements MoUssdListener {
                         subscription.subscribeUser(moUssdReq.getSourceAddress());
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.SUBSCRIBE_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
-                        SendMessage sendMessage = new SendMessage();
-                        sendMessage.SendMessage(Constants.ApplicationMessages.WELCOME_SMS, moUssdReq.getApplicationId(), moUssdReq.getSourceAddress()
-                                , Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
+                        ScheduledMessage scheduledMessage = new ScheduledMessage();
+                        scheduledMessage.SendScheduledMessage(Constants.ApplicationMessages.WELCOME_SMS, moUssdReq, 8);
                     } else if (message.equals("99")) {
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.ExIT_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
