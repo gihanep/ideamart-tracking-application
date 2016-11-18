@@ -3,6 +3,7 @@ package com.ideamart.sample.lbs;
 
 import com.google.gson.*;
 import com.ideamart.sample.common.Constants;
+import com.ideamart.sample.usermgt.UserDAO;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -21,8 +22,7 @@ public class LBS {
 
     private String APIkey = "AIzaSyDfPfRnA7qzQe5Qhg9SQkNxhGVryguhN3w";
 
-    public String getLocation(String address) throws Exception {
-
+    public ResponseBean getLatLonByAddress(String address) throws IOException {
         LBSbean lbSbean = new LBSbean();
         lbSbean.setApplicationId(Constants.ApplicationConstants.APP_ID);
         lbSbean.setPassword(Constants.ApplicationConstants.PASSWORD);
@@ -45,18 +45,21 @@ public class LBS {
         InputStream inputStream = response.getEntity().getContent();
         Scanner s = new Scanner(inputStream).useDelimiter("\\A");
         String result = s.hasNext() ? s.next() : "";
-        System.out.println("LBS:result");
-        System.out.println(result);
-        return getMessage(result);
-
-    }
-
-    public String getMessage(String jsonLine) throws IOException {
-        JsonElement jelement = new JsonParser().parse(jsonLine);
+        JsonElement jelement = new JsonParser().parse(result);
         JsonObject jobject = jelement.getAsJsonObject();
         String lat = String.valueOf(jobject.get("latitude")).replaceAll("['\"]", "");
         String lon = String.valueOf(jobject.get("longitude")).replaceAll("['\"]", "");
-        return getMapLocation(lat, lon);
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setLatitude(lat);
+        responseBean.setLongitude(lon);
+        return responseBean;
+    }
+
+    public String getLocation(String address) throws Exception {
+        ResponseBean responseBean;
+        responseBean = getLatLonByAddress(address);
+        return getMapLocation(responseBean.getLatitude(), responseBean.getLongitude());
+
     }
 
     public String getMapLocation(String lat, String lon) throws IOException {
@@ -74,9 +77,22 @@ public class LBS {
         JsonElement jelement = new JsonParser().parse(result);
         JsonObject jobject = jelement.getAsJsonObject();
         JsonArray array = jobject.getAsJsonArray("results");
-        String address = array.get(1).getAsJsonObject().get("formatted_address").toString().replaceAll("['\"]", "");
+        String address = array.get(0).getAsJsonObject().get("formatted_address").toString().replaceAll("['\"]", "");
         String mapURL = "http://maps.google.com/?ll=" + lat + "," + lon;
         return address + "\n" + mapURL;
 
+    }
+
+    public ResponseBean getLatLonByPin(String pin) throws IOException {
+        ResponseBean responseBean;
+        try {
+            UserDAO userDAO = new UserDAO();
+            String address = userDAO.getUserAddressByPin(pin);
+            responseBean = getLatLonByAddress(address);
+            return responseBean;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return  null;
     }
 }

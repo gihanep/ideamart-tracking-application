@@ -60,20 +60,20 @@ public final class Constants {
     public static final class ApplicationMessages {
         public static final String WELCOME_MSG = "1. Register wenna\n99. Exit";
         public static final String SUBSCRIBE_MESSAGE = "1. Location balanna\n2. Pin ekak ganna\n3. Pin eka balanna\n4. Help\n5. Contact us\n0. Back\n99. Exit";
-        public static final String SEARCH_LOCATION = "obata soyanna kenage pin ankaya athulath karanna(labagen naththam (number) eyage " +
+        public static final String SEARCH_LOCATION = "obata soyanna kenage pin ankaya athulath karanna(labagen naththam #775*911# eyage " +
                 "phone eken dial karala laba ganna)";
         public static final String USSD_COMMON_MSG = "\n" +
                 "0. Back\n" +
                 "99. Exit";
         public static final String HELP_MESSAGE = "Keti Paniwidayak Magein Siyalu Thorathuru Labenu Atha.\n0. Back\n99. Exit";
-        public static final String CONTACT = "facebook: fb.com/mytracker.\n" +
+        public static final String CONTACT = "facebook: fb.com/getlocation\n" +
                 "       \n0. Back\n99.Exit";
         public static final String HELP_SMS = "welcome to (app eke name) ussd application.\n" +
                 "               Inna Thana Balaganimata :- (app keyword) <space> GPS <space> oba soyana kenage Pin Ankaya.\n" +
                 "               sent to(app number)\n";
         public static final String WELCOME_SMS = "Obata avashya onama kenekge location eka balaganna #775*911# number " +
                 "eka save kara ganna";
-        public static final String HELP_USSD = "#775*911# dial kara Subscribe karanna -> Pin ekak ganna -> " +
+        public static final String HELP_USSD = "#775*911# dial karala Register wenna -> Pin ekak ganna -> " +
                 "Location select karama oyage ho adala kenage pin eka athul karanna";
         public static final String ExIT_MESSAGE = "Thank you for using. come again!";
 

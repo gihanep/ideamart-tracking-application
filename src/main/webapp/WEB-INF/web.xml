@@ -30,4 +30,14 @@
         <servlet-name>smsReceiver</servlet-name>
         <url-pattern>/smsReceiver</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getLocation</servlet-name>
+        <servlet-class>com.ideamart.sample.restservices.getLocation</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>getLocation</servlet-name>
+        <url-pattern>/getLocation</url-pattern>
+    </servlet-mapping>
 </web-app>

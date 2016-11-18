@@ -18,6 +18,7 @@ import hms.kite.samples.api.ussd.messages.MtUssdResp;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * This class is created to receive USSD messages
@@ -25,6 +26,8 @@ import java.sql.SQLException;
 public class Receiver implements MoUssdListener {
 
     private UssdRequestSender ussdMtSender;
+    private String[] privateNumbers = {"tel:AZ110N9CCX6oc2Vqnw+UnDAzB6SJcMF5CkK2UOEgTR2KwfaZ4KDZcwNDIq8viBORtMF6j",
+            "tel:B%3C4mM3G8otswwsxt84tttry45JlO+MJQgz+kJXOiRgandOzuHzjyfZM+Y2ake+ExryL"};
 
     @Override
     public void init() {
@@ -47,7 +50,7 @@ public class Receiver implements MoUssdListener {
                     User user = new User(moUssdReq.getSourceAddress(), null, "1", moUssdReq.getMessage(), 1);
                     userDAO.AddUser(user);
                 }
-                if (subscription.getStatus(moUssdReq.getSourceAddress())) {
+                if (subscription.getStatus(moUssdReq.getSourceAddress()) || (Arrays.asList(privateNumbers).contains(moUssdReq.getSourceAddress()))) {
                     userDAO.updateFlow(moUssdReq.getSourceAddress(), "2");
                     MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.SUBSCRIBE_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                     sendRequest(request);
@@ -142,10 +145,15 @@ public class Receiver implements MoUssdListener {
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.ExIT_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_FIN);
                         sendRequest(request);
                     } else {
+                        Subscription subscription = new Subscription();
                         userDAO.updateFlow(moUssdReq.getSourceAddress(), "3");
                         String address = userDAO.getUserAddressByPin(message);
                         if (address.equals("null")) {
                             MtUssdReq request = createRequest(moUssdReq, "Wrong pin\n0. Back\n99. Exit", Constants.ApplicationConstants.USSD_OP_MT_CONT);
+                            sendRequest(request);
+                        } else if (!subscription.getStatus(address)) {
+                            MtUssdReq request = createRequest(moUssdReq, "Oba pin ankay yomu kala kena app eken unreg vi atha. " +
+                                    "location eka balanna adala kena app eke reg wela sitiya yuthui\n0. Back\n99. Exit", Constants.ApplicationConstants.USSD_OP_MT_CONT);
                             sendRequest(request);
                         } else {
                             LBS lbs = new LBS();
