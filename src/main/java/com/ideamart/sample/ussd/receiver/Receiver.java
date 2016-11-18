@@ -26,8 +26,8 @@ import java.util.Arrays;
 public class Receiver implements MoUssdListener {
 
     private UssdRequestSender ussdMtSender;
-    private String[] privateNumbers = {"tel:AZ110N9CCX6oc2Vqnw+UnDAzB6SJcMF5CkK2UOEgTR2KwfaZ4KDZcwNDIq8viBORtMF6j",
-            "tel:B%3C4mM3G8otswwsxt84tttry45JlO+MJQgz+kJXOiRgandOzuHzjyfZM+Y2ake+ExryL"};
+    private String[] privateNumbers = {"tel:AZ110N9CCX6oc2Vqnw+UnDAzB6SJcMF5CkK2UOEgTR2KwfaZ4KDZcwNDIq8viBORtMF6j"};
+    //"tel:B%3C4mM3G8otswwsxt84tttry45JlO+MJQgz+kJXOiRgandOzuHzjyfZM+Y2ake+ExryL"
 
     @Override
     public void init() {

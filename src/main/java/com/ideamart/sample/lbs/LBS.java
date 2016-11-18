@@ -3,6 +3,7 @@ package com.ideamart.sample.lbs;
 
 import com.google.gson.*;
 import com.ideamart.sample.common.Constants;
+import com.ideamart.sample.subcription.Subscription;
 import com.ideamart.sample.usermgt.UserDAO;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -84,11 +85,19 @@ public class LBS {
     }
 
     public ResponseBean getLatLonByPin(String pin) throws IOException {
-        ResponseBean responseBean;
+        ResponseBean responseBean = new ResponseBean();
+        Subscription subscription = new Subscription();
         try {
             UserDAO userDAO = new UserDAO();
             String address = userDAO.getUserAddressByPin(pin);
-            responseBean = getLatLonByAddress(address);
+            if (address.equals("null")) {
+                responseBean.setStatus("fail");
+            } else if (!subscription.getStatus(address)) {
+                responseBean.setStatus("fail");
+            } else {
+                responseBean = getLatLonByAddress(address);
+                responseBean.setStatus("success");
+            }
             return responseBean;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
