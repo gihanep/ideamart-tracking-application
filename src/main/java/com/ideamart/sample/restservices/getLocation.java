@@ -19,6 +19,7 @@ public class getLocation extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("API accessed");
         String pin = request.getParameter("pin");
         ResponseBean responseBean;
         LBS lbs = new LBS();
@@ -26,6 +27,7 @@ public class getLocation extends HttpServlet {
         Gson gson = new Gson();
         String result = gson.toJson(responseBean);
         response.setContentType("application/json");
+        System.out.println(result);
         response.getWriter().write(result);
 
     }
