@@ -16,6 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="assets/css/ionicons.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/customCss.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/agile_carousel.css" type='text/css'>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -42,93 +43,97 @@
 
 <div id="h">
     <div class="logo">mLocation.CO
-        <a href="#middle">
-            <button class='btn btn-conf btn-green' type="button">Register</button>
-            <a/>
     </div>
-    <div class="social hidden-xs">
-        <a href="https://twitter.com/mlocation_SL" target="_blank"><i class="ion-social-twitter"></i></a>
-        <a href="https://www.instagram.com/mlocation_sl" target="_blank"><i class="ion-social-instagram"></i></a>
-        <a href="https://www.facebook.com/getlocation/" target="_blank"><i class="ion-social-facebook"></i></a>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <!--<h1>Welcome to our new app site.<br/>Sign up now & prepare to enjoy our service.</h1>-->
-                <div class="mtb">
-                    <form class="form-horizontal" role="form" enctype="plain"
-                          style="text-align: center; display: inline-block">
-                        <input id="pin" type="text" name="pin" class="tb1 subscribe-input" placeholder="Enter A PIN"
-                               required>
-                        <button id="sendPin" onclick="request_access()" class='btn btn-conf btn-green' type="button">Get
-                            Your Location
-                        </button>
-                    </form>
-                </div><!--/mt-->
-                <h6>Get your Friend/ Lover/ Children Location</h6>
+<div class="page-content">
+  <div class="social hidden-xs">
+      <a href="https://twitter.com/mlocation_SL" target="_blank"><i class="ion-social-twitter"></i></a>
+      <a href="https://www.instagram.com/mlocation_sl" target="_blank"><i class="ion-social-instagram"></i></a>
+      <a href="https://www.facebook.com/getlocation/" target="_blank"><i class="ion-social-facebook"></i></a>
+  </div>
+  <div class="container">
+      <div class="row">
+          <div class=" form-content col-md-4">
+            <div class="btn-register">
+              <a href="#middle">
+                  <button class='btn btn-conf btn-green' type="button">Register</button>
+              <a/>
             </div>
+              <div class="mtb">
+                  <form class="form-horizontal" role="form" enctype="plain"
+                        style="text-align: center; display: inline-block">
+                        <div class="input-pin">
+                          <input id="pin" type="text" name="pin" class="tb1 subscribe-input" placeholder="Enter A PIN"
+                                 required>
+                        </div>
+                        <div class = "btn-location">
+                          <button id="sendPin" onclick="request_access()" class='btn btn-conf btn-green' type="button">Get
+                              Your Location
+                          </button>
+                        </div>
 
-            <!--adding google map-->
-            <div class="col-md-8">
-                <div id="map"></div>
-                <script>
-                    function initMap() {
-                        var mapcanvas = document.createElement('div');
-                        mapcanvas.style.border = '10px solid #0b0';
-                        var uluru = {lat: 7.8731, lng: 80.7718};
-                        var map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 4,
-                            center: uluru
-                        });
-                        var marker = new google.maps.Marker({
-                            position: uluru,
-                            map: map
-                        });
-                    }
-                </script>
-                <script async defer
-                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9zFd5A8dQyOhYVtTwnJtqQjfcm5Cdp1M&callback=initMap">
-                </script>
-                <!--google map end-->
 
-            </div>
-        </div><!--/row-->
-    </div><!--/container-->
+                  </form>
+              </div><!--/mt-->
+              <h6>Get your Friend/ Lover/ Children Location</h6>
+          </div>
+
+          <!--adding google map-->
+          <div class="col-md-8">
+              <div id="map"></div>
+              <script>
+                  function initMap() {
+                      var mapcanvas = document.createElement('div');
+                      mapcanvas.style.border = '10px solid #0b0';
+                      var uluru = {lat: 7.8731, lng: 80.7718};
+                      var map = new google.maps.Map(document.getElementById('map'), {
+                          zoom: 4,
+                          center: uluru
+                      });
+                      var marker = new google.maps.Marker({
+                          position: uluru,
+                          map: map
+                      });
+                  }
+              </script>
+              <script async defer
+                      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9zFd5A8dQyOhYVtTwnJtqQjfcm5Cdp1M&callback=initMap">
+              </script>
+              <!--google map end-->
+
+          </div>
+      </div><!--/row-->
+  </div>
+</div>
+    <!--/container-->
 </div><!-- /H -->
 
 
-<div id='middle' class="container ptb">
-    <div class="row centered">
+<div id='middle' class="">
+    <div class="demo-container row centered">
         <h2 class="mb">Dial #775*911# on your Dialog Mobile.<br/>Or someone you want to get the location.<br/>Get Your
             PIN
         </h2>
         <div id="flavor_2" class="slideshow">
     </div><!--/row-->
+    <div id="f">
+        <div class="container">
+            <div class="row centered">
+                <h2>You Can Contact Us</h2>
+                <h5>mLocationMail@gmail.COM</h5>
+
+                <p class="mt">
+                    <a href="https://twitter.com/mlocation_SL" target="_blank"><i class="ion-social-twitter"></i></a>
+                    <a href="https://www.instagram.com/mlocation_sl" target="_blank"><i
+                            class="ion-social-instagram"></i></a>
+                    <a href="https://www.facebook.com/getlocation/" target="_blank"><i class="ion-social-facebook"></i></a>
+                </p>
+                <h6 class="mt">COPYRIGHT 2016 - mLocation</h6>
+            </div><!--/row-->
+        </div><!--/container-->
+    </div>
 </div><!--/container-->
 
-<div id="g">
-    <div class="container">
-        </div><!--/row-->
-    </div>
-</div><!--/g-->
-
-
-<div id="f">
-    <div class="container">
-        <div class="row centered">
-            <h2>You Can Contact Us</h2>
-            <h5>mLocationMail@gmail.COM</h5>
-
-            <p class="mt">
-                <a href="https://twitter.com/mlocation_SL" target="_blank"><i class="ion-social-twitter"></i></a>
-                <a href="https://www.instagram.com/mlocation_sl" target="_blank"><i
-                        class="ion-social-instagram"></i></a>
-                <a href="https://www.facebook.com/getlocation/" target="_blank"><i class="ion-social-facebook"></i></a>
-            </p>
-            <h6 class="mt">COPYRIGHT 2016 - mLocation</h6>
-        </div><!--/row-->
-    </div><!--/container-->
-</div><!--/F-->
+<!--/F-->
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

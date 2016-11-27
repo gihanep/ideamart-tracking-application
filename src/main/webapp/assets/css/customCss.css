@@ -1,0 +1,43 @@
+#h {
+    padding-top: 0px;
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: thick;
+}
+
+.page-content {
+    padding-top: 100px;
+}
+
+.form-content {
+    padding-top: 80px;
+    text-align: left;
+    padding-left: 7%;
+    background-color: rgba(0, 0, 0, 0.22);
+    margin-top: 10px;
+}
+
+.gm-err-content {
+    border: 5px solid rgb(70, 70, 70);
+}
+
+.btn-location {
+    float: left;
+}
+
+.subscribe-input {
+    float: left;
+    width: 65%;
+    text-align: left;
+    margin-right: 2px;
+}
+
+.btn-register {
+    width: inherit;
+}
+
+.demo-container {
+    text-align: -webkit-center;
+    margin-bottom: 100px;
+    background-color: #2f2f2f;
+}
