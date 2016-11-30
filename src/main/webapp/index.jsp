@@ -67,7 +67,7 @@
                                        required>
                             </div>
                             <div class="btn-location">
-                                <button id="sendPin" onclick="request_access()" class='btn btn-conf btn-green'
+                                <button id="sendPin" class='btn btn-conf btn-green'
                                         type="button">Get
                                     Your Location
                                 </button>
@@ -152,7 +152,7 @@
             sendPin.click(function () {
                 //alert(pin.val());
                 $.ajax({
-                            url: "/getLocation?",
+                            url: "/mytracker/getLocation?",
                             data: 'pin=' + pin.val(),
                             async: false
                         })
