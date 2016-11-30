@@ -8,38 +8,38 @@ public final class Constants {
     public static final class ApplicationConstants {
 
         //IdeaMart APIs local
-        public static final String USSD_URL = "http://127.0.0.1:7000/ussd/send";
-        public static final String SMS_URL = "http://127.0.0.1:7000/sms/send";
-        public static final String SUBSCRIPTION_MESSAGE_URL = "http://127.0.0.1:7000/subscription/send";
-        public static final String SUBSCRIPTION_BASESIZE_URL = "http://127.0.0.1:7000/subscription/query-base";
-        public static final String SUBSCRIPTION_STATUS_URL = "http://127.0.0.1:7000/subscription/getStatus";
-        public static final String LBS_URL = "http://127.0.0.1:7000/lbs/locate";
+//        public static final String USSD_URL = "http://127.0.0.1:7000/ussd/send";
+//        public static final String SMS_URL = "http://127.0.0.1:7000/sms/send";
+//        public static final String SUBSCRIPTION_MESSAGE_URL = "http://127.0.0.1:7000/subscription/send";
+//        public static final String SUBSCRIPTION_BASESIZE_URL = "http://127.0.0.1:7000/subscription/query-base";
+//        public static final String SUBSCRIPTION_STATUS_URL = "http://127.0.0.1:7000/subscription/getStatus";
+//        public static final String LBS_URL = "http://127.0.0.1:7000/lbs/locate";
 
         //IdeaMart APIs public
-//        public static final String USSD_URL = "https://api.dialog.lk/ussd/send";
-//        public static final String SMS_URL = "https://api.dialog.lk/sms/send";
-//        public static final String SUBSCRIPTION_MESSAGE_URL = "https://api.dialog.lk/subscription/send";
-//        public static final String SUBSCRIPTION_BASESIZE_URL = "https://api.dialog.lk/subscription/query-base";
-//        public static final String SUBSCRIPTION_STATUS_URL = "https://api.dialog.lk/subscription/getStatus";
-//        public static final String LBS_URL = "https://api.dialog.lk/lbs/locate";
+        public static final String USSD_URL = "https://api.dialog.lk/ussd/send";
+        public static final String SMS_URL = "https://api.dialog.lk/sms/send";
+        public static final String SUBSCRIPTION_MESSAGE_URL = "https://api.dialog.lk/subscription/send";
+        public static final String SUBSCRIPTION_BASESIZE_URL = "https://api.dialog.lk/subscription/query-base";
+        public static final String SUBSCRIPTION_STATUS_URL = "https://api.dialog.lk/subscription/getStatus";
+        public static final String LBS_URL = "https://api.dialog.lk/lbs/locate";
 
         //database local
-        public static final String JDBC_URL = "jdbc:mysql://localhost:3306/Pradeep";
-        public static final String DATABASE_USERNAME = "root";
-        public static final String DATABASE_PASSWORD = "";
+//        public static final String JDBC_URL = "jdbc:mysql://localhost:3306/Pradeep";
+//        public static final String DATABASE_USERNAME = "root";
+//        public static final String DATABASE_PASSWORD = "";
 
         //database public
-//        public static final String JDBC_URL = "jdbc:mysql://localhost:3306/gknow";
-//        public static final String DATABASE_USERNAME = "lahirur";
-//        public static final String DATABASE_PASSWORD = "1@H!7uR";
+        public static final String JDBC_URL = "jdbc:mysql://localhost:3306/gknow";
+        public static final String DATABASE_USERNAME = "lahirur";
+        public static final String DATABASE_PASSWORD = "1@H!7uR";
 
         //local app details
-        public static final String APP_ID = "APP_00001";
-        public static final String PASSWORD = "password";
+//        public static final String APP_ID = "APP_00001";
+//        public static final String PASSWORD = "password";
 
         //public app details
-//        public static final String APP_ID = "APP_029572";
-//        public static final String PASSWORD = "4eda232e6e03953049fcc6e1d50cf277";
+        public static final String APP_ID = "APP_029572";
+        public static final String PASSWORD = "4eda232e6e03953049fcc6e1d50cf277";
 
         public static final String USSD_OP_MO_INIT = "mo-init";
         public static final String USSD_OP_MT_CONT = "mt-cont";

@@ -181,7 +181,7 @@
                 slide_width: 480,
                 transition_type: "fade",
                 transition_time: 600,
-                timer: 2000,
+                timer: 4000,
                 continuous_scrolling: true,
                 control_set_1: "numbered_buttons,previous_button,pause_button,next_button"
 //                control_set_2: "content_buttons",
