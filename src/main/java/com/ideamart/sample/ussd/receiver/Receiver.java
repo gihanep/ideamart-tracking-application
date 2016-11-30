@@ -79,7 +79,7 @@ public class Receiver implements MoUssdListener {
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.SUBSCRIBE_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
                         ScheduledMessage scheduledMessage = new ScheduledMessage();
-                        scheduledMessage.SendScheduledMessage(Constants.ApplicationMessages.WELCOME_SMS, moUssdReq, 8);
+                        scheduledMessage.SendScheduledMessage(Constants.ApplicationMessages.WELCOME_SMS, moUssdReq, 13);
                     } else if (message.equals("99")) {
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.ExIT_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
