@@ -159,9 +159,9 @@
                         .done(function (data) {
                             var isTrue = (data["Status"].toLowerCase() === 'success');
                             if (isTrue) {
-                                var uluru = {lat: parseInt(data["Latitude"]), lng: parseInt(data["Longitude"])};
+                                var uluru = {lat: parseFloat(data["Latitude"]), lng: parseFloat(data["Longitude"])};
                                 var map = new google.maps.Map(document.getElementById('map'), {
-                                    zoom: 8,
+                                    zoom: 15,
                                     center: uluru
                                 });
                                 var marker = new google.maps.Marker({
