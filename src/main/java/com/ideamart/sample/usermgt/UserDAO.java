@@ -19,6 +19,7 @@ public class UserDAO {
                 "," + "\"" + user.getFlow() + "\"" + "," + "\"" + String.valueOf(user.getSubscription()) + "\"" + ");";
         System.out.println(sql);
         stmt.executeUpdate(sql);
+        connection.close();
 
 
     }
@@ -27,21 +28,34 @@ public class UserDAO {
         String sql = "UPDATE tracking SET flow=" + "\"" + flow + "\"" + " WHERE address= "+ "\"" + address + "\""+";";
         System.out.println(sql);
         stmt.executeUpdate(sql);
+        connection.close();
     }
 
     public String getFlow(String address) throws ClassNotFoundException {
+        ResultSet resultSet = null;
         try {
             connection = DatabaseConnection.getDBInstance().getConnection();
             stmt = connection.createStatement();
             String query = "Select * from tracking where address= " + "\"" + address + "\"" + ";";
             System.out.println(query);
-            ResultSet resultSet = stmt.executeQuery(query);
+            resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 return resultSet.getString("flow");
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
         }
         return null;
     }
@@ -52,49 +66,102 @@ public class UserDAO {
         String sql = "UPDATE tracking SET subscription = subscription + 1" + " WHERE address= "+ "\"" + address + "\""+";";
         System.out.println(sql);
         stmt.executeUpdate(sql);
+        connection.close();
     }
 
     public int getCount(String address) throws ClassNotFoundException {
+        ResultSet resultSet = null;
         try {
             connection = DatabaseConnection.getDBInstance().getConnection();
             stmt = connection.createStatement();
             String query = "Select * from tracking where address= " + "\"" + address + "\"" + ";";
             System.out.println(query);
-            ResultSet resultSet = stmt.executeQuery(query);
+            resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 return resultSet.getInt("subscription");
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
         }
         return 0;
     }
 
-    public boolean userAvailability(String address) throws ClassNotFoundException, SQLException {
-        connection = DatabaseConnection.getDBInstance().getConnection();
-        stmt = connection.createStatement();
-        String query = "Select * from tracking where address =" + "\"" + address + "\"" + ";";
-        System.out.println(query);
-        ResultSet resultSet = stmt.executeQuery(query);
-        if (resultSet.next()) {
-            return true;
-        } else {
-            return false;
+    public boolean userAvailability(String address)  {
+        ResultSet resultSet = null;
+        try {
+            connection = DatabaseConnection.getDBInstance().getConnection();
+            stmt = connection.createStatement();
+            String query = "Select * from tracking where address =" + "\"" + address + "\"" + ";";
+            System.out.println(query);
+            resultSet = stmt.executeQuery(query);
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
         }
+        return false;
+
     }
 
-    public boolean userPinAvailability(String address) throws ClassNotFoundException, SQLException {
-        connection = DatabaseConnection.getDBInstance().getConnection();
-        stmt = connection.createStatement();
-        String query = "Select * from tracking_pin where address =" + "\"" + address + "\"" + ";";
-        System.out.println(query);
-        ResultSet resultSet = stmt.executeQuery(query);
-        if (resultSet.next()) {
-            return true;
-        } else {
-            return false;
+    public boolean userPinAvailability(String address) {
+        ResultSet resultSet = null;
+        try {
+            connection = DatabaseConnection.getDBInstance().getConnection();
+            stmt = connection.createStatement();
+            String query = "Select * from tracking_pin where address =" + "\"" + address + "\"" + ";";
+            System.out.println(query);
+            resultSet = stmt.executeQuery(query);
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
         }
+        return false;
+
     }
 
     public void AddUserPin(String address) throws ClassNotFoundException, SQLException {
@@ -103,50 +170,76 @@ public class UserDAO {
         String sql = "INSERT INTO tracking_pin VALUES (" + "\"" + address + "\"" + "," +  "NULL"  + ");";
         System.out.println(sql);
         stmt.executeUpdate(sql);
+        connection.close();
 
     }
 
     public String getUserAddressByPin(String pin) throws ClassNotFoundException {
+        ResultSet resultSet = null;
         try {
             connection = DatabaseConnection.getDBInstance().getConnection();
             stmt = connection.createStatement();
             String query = "Select * from tracking_pin where pin= " + "\"" + pin + "\"" + ";";
             System.out.println(query);
-            ResultSet resultSet = stmt.executeQuery(query);
+            resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 return resultSet.getString("address");
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return "null";
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
         }
         return "null";
     }
 
     public String getUserPinByAddress(String address) throws ClassNotFoundException {
+        ResultSet resultSet = null;
         try {
             connection = DatabaseConnection.getDBInstance().getConnection();
             stmt = connection.createStatement();
             String query = "Select * from tracking_pin where address= "+ "\"" + address + "\""  +";";
             System.out.println(query);
-            ResultSet resultSet = stmt.executeQuery(query);
+            resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 return resultSet.getString("pin");
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return "Please Register";
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
         }
         return "Please Register";
     }
 
     public int getTotalUsers() {
+        ResultSet resultSet = null;
         try {
             connection = DatabaseConnection.getDBInstance().getConnection();
             stmt = connection.createStatement();
             String query = "Select COUNT(*) AS total FROM tracking";
             System.out.println(query);
-            ResultSet resultSet = stmt.executeQuery(query);
+            resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 return resultSet.getInt("total");
             }
@@ -155,17 +248,29 @@ public class UserDAO {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
         }
         return 0;
     }
 
     public int getPendingUsers() {
+        ResultSet resultSet = null;
         try {
             connection = DatabaseConnection.getDBInstance().getConnection();
             stmt = connection.createStatement();
             String query = "Select COUNT(*) AS total FROM tracking WHERE subscription=" + "1";
             System.out.println(query);
-            ResultSet resultSet = stmt.executeQuery(query);
+            resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 return resultSet.getInt("total");
             }
@@ -174,6 +279,17 @@ public class UserDAO {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
         }
         return 0;
     }

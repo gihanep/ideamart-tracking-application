@@ -25,6 +25,16 @@ import java.util.Arrays;
  */
 public class Receiver implements MoUssdListener {
 
+    private MoUssdReq moUssdReq;
+
+    public MoUssdReq getMoUssdReq() {
+        return moUssdReq;
+    }
+
+    public void setMoUssdReq(MoUssdReq moUssdReq) {
+        this.moUssdReq = moUssdReq;
+    }
+
     private UssdRequestSender ussdMtSender;
     private String[] privateNumbers = {"tel:AZ110N9CCX6oc2Vqnw+UnDAzB6SJcMF5CkK2UOEgTR2KwfaZ4KDZcwNDIq8viBORtMF6j"};
     //"tel:B%3C4mM3G8otswwsxt84tttry45JlO+MJQgz+kJXOiRgandOzuHzjyfZM+Y2ake+ExryL"
@@ -78,8 +88,25 @@ public class Receiver implements MoUssdListener {
                         subscription.subscribeUser(moUssdReq.getSourceAddress());
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.SUBSCRIBE_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
-                        ScheduledMessage scheduledMessage = new ScheduledMessage();
-                        scheduledMessage.SendScheduledMessage(Constants.ApplicationMessages.WELCOME_SMS, moUssdReq, 13);
+//                        ScheduledMessage scheduledMessage = new ScheduledMessage();
+//                        scheduledMessage.SendScheduledMessage(Constants.ApplicationMessages.WELCOME_SMS, moUssdReq, 13);
+                        setMoUssdReq(moUssdReq);
+                        new java.util.Timer().schedule(
+                                new java.util.TimerTask() {
+
+                                    private MoUssdReq moUssdReq;
+                                    @Override
+                                    public void run() {
+                                        // your code here
+                                        System.out.println("Send welcome sms");
+                                        moUssdReq = getMoUssdReq();
+                                        SendMessage sendMessage = new SendMessage();
+                                        sendMessage.SendMessage(Constants.ApplicationMessages.WELCOME_SMS, moUssdReq.getApplicationId(),
+                                                moUssdReq.getSourceAddress(), Constants.ApplicationConstants.PASSWORD, Constants.ApplicationConstants.SMS_URL);
+                                    }
+                                },
+                                15000
+                        );
                     } else if (message.equals("99")) {
                         MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.ExIT_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                         sendRequest(request);
