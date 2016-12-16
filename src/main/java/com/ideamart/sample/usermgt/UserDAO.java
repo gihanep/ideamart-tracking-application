@@ -24,7 +24,8 @@ public class UserDAO {
 
     }
 
-    public void updateFlow(String address, String flow) throws SQLException {
+    public void updateFlow(String address, String flow) throws SQLException, ClassNotFoundException {
+        connection = DatabaseConnection.getDBInstance().getConnection();
         String sql = "UPDATE tracking SET flow=" + "\"" + flow + "\"" + " WHERE address= "+ "\"" + address + "\""+";";
         System.out.println(sql);
         stmt.executeUpdate(sql);
