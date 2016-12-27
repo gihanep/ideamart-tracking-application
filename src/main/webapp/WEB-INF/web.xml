@@ -40,4 +40,14 @@
         <servlet-name>getLocation</servlet-name>
         <url-pattern>/getLocation</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>dashboard</servlet-name>
+        <servlet-class>com.ideamart.sample.restservices.dashboard</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dashboard</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
 </web-app>
