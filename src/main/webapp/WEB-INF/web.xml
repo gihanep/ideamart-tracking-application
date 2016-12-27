@@ -50,4 +50,14 @@
         <servlet-name>dashboard</servlet-name>
         <url-pattern>/dashboard</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Notification</servlet-name>
+        <servlet-class>com.ideamart.sample.restservices.Notification</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Notification</servlet-name>
+        <url-pattern>/notification</url-pattern>
+    </servlet-mapping>
 </web-app>
