@@ -3,6 +3,9 @@ package com.ideamart.sample.restservices;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ideamart.sample.dashboardMgt.Dashboard;
+import com.ideamart.sample.dashboardMgt.DashboardDAO;
+import com.ideamart.sample.usermgt.UserDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -11,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -25,7 +30,10 @@ public class Notification extends HttpServlet {
             System.out.println(result);
             JsonElement jelement = new JsonParser().parse(result);
             JsonObject jobject = jelement.getAsJsonObject();
-            String subscriptionStatus = String.valueOf(jobject.get("subscriptionStatus")).replaceAll("['\"]", "");
+            String subscriptionStatus = String.valueOf(jobject.get("status")).replaceAll("['\"]", "");
+            String address = "tel:" + String.valueOf(jobject.get("subscriberId")).replaceAll("['\"]", "");
+            DashboardTrafficUpdate(address, subscriptionStatus);
+            DashboardDailyTrafficUpdate(subscriptionStatus);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,5 +58,58 @@ public class Notification extends HttpServlet {
         }
 
         return stringBuilder.toString();
+    }
+
+    public void DashboardTrafficUpdate(String address, String status) throws SQLException, ClassNotFoundException {
+        UserDAO userDAO = new UserDAO();
+        if(status.equals("REGISTERED")) {
+            userDAO.updateUserStatus(address, 1);
+        } else if(status.equals("UNREGISTERED")) {
+            userDAO.updateUserStatus(address, 0);
+        } else {
+            userDAO.updateUserStatus(address, 2);
+        }
+    }
+
+    public void DashboardDailyTrafficUpdate(String status) throws ClassNotFoundException, SQLException {
+        DashboardDAO dashboardDAO = new DashboardDAO();
+        Date today = new Date();
+        String date = today.getDate() + "." + today.getMonth() + "." + today.getYear();
+        if(dashboardDAO.dateAvailable(date)) {
+            int reg = dashboardDAO.getRegCount(date);
+            int unReg = dashboardDAO.getUnRegCount(date);
+            int pending = dashboardDAO.getPendingCount(date);
+            if(status.equals("REGISTERED")) {
+                Dashboard dasboardObj = new Dashboard();
+                dasboardObj.setDate(date);
+                dasboardObj.setReg(reg+1);
+                dasboardObj.setUnReg(unReg);
+                dasboardObj.setPending(pending);
+                dashboardDAO.updateParams(dasboardObj);
+            } else if(status.equals("UNREGISTERED")) {
+                Dashboard dasboardObj = new Dashboard();
+                dasboardObj.setDate(date);
+                dasboardObj.setReg(reg);
+                dasboardObj.setUnReg(unReg+1);
+                dasboardObj.setPending(pending);
+                dashboardDAO.updateParams(dasboardObj);
+            } else {
+                Dashboard dasboardObj = new Dashboard();
+                dasboardObj.setDate(date);
+                dasboardObj.setReg(reg);
+                dasboardObj.setUnReg(unReg);
+                dasboardObj.setPending(pending+1);
+                dashboardDAO.updateParams(dasboardObj);
+            }
+        } else {
+            dashboardDAO.deteleTable();
+            Dashboard dasboardObj = new Dashboard();
+            dasboardObj.setDate(date);
+            dasboardObj.setReg(1);
+            dasboardObj.setUnReg(0);
+            dasboardObj.setPending(0);
+            dashboardDAO.AddDashboard(dasboardObj);
+        }
+
     }
 }

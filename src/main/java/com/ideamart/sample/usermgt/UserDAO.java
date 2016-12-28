@@ -307,12 +307,41 @@ public class UserDAO {
         connection.close();
     }
 
+    public int getUserStatus(String address) throws ClassNotFoundException {
+        ResultSet resultSet = null;
+        try {
+            connection = DatabaseConnection.getDBInstance().getConnection();
+            stmt = connection.createStatement();
+            String query = "Select * from tracking where address= " + "\"" + address + "\"" + ";";
+            System.out.println(query);
+            resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                return resultSet.getInt("status");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* ignored */}
+            }
+        }
+        return 0;
+    }
+
 
     public int[] getTotalSubscribers() {
         ResultSet resultSet = null;
         String address;
         int reg = 0, unReg = 0, pending = 0;
-        int [] array = new int[2];
+        int [] array = new int[3];
         Subscription subscription = new Subscription();
         try {
             connection = DatabaseConnection.getDBInstance().getConnection();
@@ -322,7 +351,7 @@ public class UserDAO {
             resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 address = resultSet.getString("address");
-                if(subscription.getStatusNumber(address) == 1) {
+                if(getUserStatus(address) == 1) {
                     reg++;
                     updateUserStatus(address, 1);
 
