@@ -76,4 +76,37 @@ public class Subscription {
         System.out.println(subscriptionStatus);
         return subscriptionStatus.equals("REGISTERED");
     }
+
+    public int getStatusNumber(String address) throws IOException {
+        StatusBean statusBean = new StatusBean();
+        statusBean.setSubscriberId(address);
+        statusBean.setPassword(Constants.ApplicationConstants.PASSWORD);
+        statusBean.setApplicationId(Constants.ApplicationConstants.APP_ID);
+        String postUrl = Constants.ApplicationConstants.SUBSCRIPTION_STATUS_URL;
+        Gson gson = new Gson();
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(postUrl);
+        StringEntity postingString = new StringEntity(gson.toJson(statusBean));//gson.tojson() converts your pojo to json
+        post.setEntity(postingString);
+        post.setHeader("Content-type", "application/json");
+        post.setHeader("Accept", "application/json");
+        HttpResponse response = httpClient.execute(post);
+        System.out.println(response.getStatusLine());
+        InputStream inputStream = response.getEntity().getContent();
+        Scanner s = new Scanner(inputStream).useDelimiter("\\A");
+        String result = s.hasNext() ? s.next() : "";
+        System.out.println("Subscription status:");
+        System.out.println(result);
+        JsonElement jelement = new JsonParser().parse(result);
+        JsonObject jobject = jelement.getAsJsonObject();
+        String subscriptionStatus = String.valueOf(jobject.get("subscriptionStatus")).replaceAll("['\"]", "");
+        System.out.println(subscriptionStatus);
+        if(subscriptionStatus.equals("REGISTERED")) {
+            return 1;
+        } else if(subscriptionStatus.equals("UNREGISTERED")) {
+            return 0;
+        } else {
+            return 2;
+        }
+    }
 }

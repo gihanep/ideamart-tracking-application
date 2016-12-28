@@ -33,11 +33,10 @@
 <%
     UserDAO userDAO = new UserDAO();
     int total = userDAO.getTotalUsers();
-    int pending = userDAO.getPendingUsers();
-    int active = total - pending;
     int [] array = userDAO.getTotalSubscribers();
     int reg = array[0];
     int unReg = array[1];
+    int pending = array[2];
 
 %>
 <table>
@@ -46,6 +45,7 @@
         <th>Total Users</th>
         <th>Subscribed Users(Net Reg Base)</th>
         <th>UnSubscribed Users</th>
+        <th>Pending Users</th>
 
     </tr>
     <tr>
@@ -53,6 +53,7 @@
         <td><%=total%>
         <td><%=reg%></td>
         <td><%=unReg%></td>
+        <td><%=pending%></td>
     </tr>
 
 </table>

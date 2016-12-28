@@ -311,7 +311,7 @@ public class UserDAO {
     public int[] getTotalSubscribers() {
         ResultSet resultSet = null;
         String address;
-        int reg = 0, unReg = 0;
+        int reg = 0, unReg = 0, pending = 0;
         int [] array = new int[2];
         Subscription subscription = new Subscription();
         try {
@@ -322,17 +322,21 @@ public class UserDAO {
             resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 address = resultSet.getString("address");
-                if(subscription.getStatus(address)) {
+                if(subscription.getStatusNumber(address) == 1) {
                     reg++;
                     updateUserStatus(address, 1);
 
-                } else {
+                } else if (subscription.getStatusNumber(address) == 0) {
                     unReg++;
                     updateUserStatus(address, 0);
+                } else {
+                    pending++;
+                    updateUserStatus(address, 2);
                 }
             }
             array[0] = reg;
             array[1] = unReg;
+            array[2]  = pending;
             return array;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
