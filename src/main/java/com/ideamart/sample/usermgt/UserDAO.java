@@ -355,7 +355,7 @@ public class UserDAO {
                     reg++;
                     updateUserStatus(address, 1);
 
-                } else if (subscription.getStatusNumber(address) == 0) {
+                } else if (getUserStatus(address) == 0) {
                     unReg++;
                     updateUserStatus(address, 0);
                 } else {
@@ -368,8 +368,6 @@ public class UserDAO {
             array[2]  = pending;
             return array;
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();

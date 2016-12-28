@@ -48,7 +48,7 @@ public class DashboardDAO {
     public void deteleTable() throws SQLException, ClassNotFoundException {
         connection = DatabaseConnection.getDBInstance().getConnection();
         stmt = connection.createStatement();
-        String sql = "DELETE * FROM tracking_dashboard;";
+        String sql = "DELETE FROM tracking_dashboard;";
         System.out.println(sql);
         stmt.executeUpdate(sql);
 
