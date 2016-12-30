@@ -35,12 +35,12 @@ public class DashboardDAO {
         stmt.executeUpdate(sql);
 
         String sql2 = "UPDATE tracking_dashboard SET unReg=" + "\"" + dashboard.getUnReg() + "\"" + " WHERE date= " + "\"" + dashboard.getDate() + "\"" + ";";
-        System.out.println(sql);
-        stmt.executeUpdate(sql);
+        System.out.println(sql2);
+        stmt.executeUpdate(sql2);
 
         String sql3 = "UPDATE tracking_dashboard SET pending=" + "\"" + dashboard.getPending() + "\"" + " WHERE date= " + "\"" + dashboard.getDate() + "\"" + ";";
-        System.out.println(sql);
-        stmt.executeUpdate(sql);
+        System.out.println(sql3);
+        stmt.executeUpdate(sql3);
 
         connection.close();
     }
@@ -176,17 +176,30 @@ public class DashboardDAO {
         return 0;
     }
 
-    public int[] getDailyTraffic(String date) throws ClassNotFoundException, SQLException {
+    public int[] getDailyTraffic(String date) {
         int[] array = new int[3];
-        if (dateAvailable(date)) {
-            array[0] = getRegCount(date);
-            array[1] = getUnRegCount(date);
-            array[2] = getPendingCount(date);
-        } else {
-            deteleTable();
-            for (int i = 0; i < 3; i++) {
-                array[i] = 0;
+        try {
+            if (dateAvailable(date)) {
+                array[0] = getRegCount(date);
+                array[1] = getUnRegCount(date);
+                array[2] = getPendingCount(date);
+            } else {
+                deteleTable();
+                Dashboard dasboardObj = new Dashboard();
+                dasboardObj.setDate(date);
+                dasboardObj.setReg(0);
+                dasboardObj.setUnReg(0);
+                dasboardObj.setPending(0);
+                AddDashboard(dasboardObj);
+                for (int i = 0; i < 3; i++) {
+                    array[i] = 0;
+                }
             }
+            return array;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return array;
     }

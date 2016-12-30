@@ -9,6 +9,8 @@
 <%@ page import="com.ideamart.sample.usermgt.UserDAO" %>
 <%@ page import="com.ideamart.sample.dashboardMgt.DashboardDAO" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <html>
 <head>
     <style type="text/css">
@@ -37,8 +39,9 @@
     DashboardDAO dashboardDAO = new DashboardDAO();
     int total = userDAO.getTotalUsers();
     int [] array = userDAO.getTotalSubscribers();
-    Date today = new Date();
-    String date = today.getDate() + "." + today.getMonth() + "." + today.getYear();
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    Date dateObj = new Date();
+    String date = dateFormat.format(dateObj);
     int [] dailyTrafficArray = dashboardDAO.getDailyTraffic(date);
     int reg = array[0];
     int unReg = array[1];
@@ -51,6 +54,7 @@
 <table>
     <tr>
         <th>Application Name</th>
+        <th>Date</th>
         <th>Total Users</th>
         <th>Subscribed Users(Net Reg Base)</th>
         <th>UnSubscribed Users</th>
@@ -62,6 +66,7 @@
     </tr>
     <tr>
         <td>mLocation</td>
+        <td><%=date%>
         <td><%=total%>
         <td><%=reg%></td>
         <td><%=unReg%></td>

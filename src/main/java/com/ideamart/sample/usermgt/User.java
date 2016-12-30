@@ -11,12 +11,13 @@ public class User {
     private String message;
     private int subscription;
 
-    public User(String address, String name, String flow, String message, int subscription) {
+    public User(String address, String name, String flow, String message, int subscription, int status) {
         this.address = address;
         this.name = name;
         this.flow = flow;
         this.message = message;
         this.subscription = subscription;
+        this.status = status;
     }
 
     public String getAddress() {
@@ -58,4 +59,14 @@ public class User {
     public void setSubscription(int subscription) {
         this.subscription = subscription;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    private int status;
 }

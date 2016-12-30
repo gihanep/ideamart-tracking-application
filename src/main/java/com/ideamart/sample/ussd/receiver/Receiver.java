@@ -57,10 +57,10 @@ public class Receiver implements MoUssdListener {
                 Subscription subscription = new Subscription();
 
                 if (!userDAO.userAvailability(moUssdReq.getSourceAddress())) {
-                    User user = new User(moUssdReq.getSourceAddress(), null, "1", moUssdReq.getMessage(), 1);
+                    User user = new User(moUssdReq.getSourceAddress(), null, "1", moUssdReq.getMessage(), 1, 0);
                     userDAO.AddUser(user);
                 }
-                if (subscription.getStatus(moUssdReq.getSourceAddress()) || (Arrays.asList(privateNumbers).contains(moUssdReq.getSourceAddress()))) {
+                if (subscription.getStatus(moUssdReq.getSourceAddress())|| (Arrays.asList(privateNumbers).contains(moUssdReq.getSourceAddress()))) {
                     userDAO.updateFlow(moUssdReq.getSourceAddress(), "2");
                     MtUssdReq request = createRequest(moUssdReq, Constants.ApplicationMessages.SUBSCRIBE_MESSAGE, Constants.ApplicationConstants.USSD_OP_MT_CONT);
                     sendRequest(request);

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -23,6 +25,7 @@ import java.util.Scanner;
  */
 public class Notification extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Notification called");
         String result = null;
         try {
             result = httpServletRequestToString(request);
@@ -31,10 +34,12 @@ public class Notification extends HttpServlet {
             JsonElement jelement = new JsonParser().parse(result);
             JsonObject jobject = jelement.getAsJsonObject();
             String subscriptionStatus = String.valueOf(jobject.get("status")).replaceAll("['\"]", "");
+            System.out.println("user status: " + subscriptionStatus);
             String address = "tel:" + String.valueOf(jobject.get("subscriberId")).replaceAll("['\"]", "");
             DashboardTrafficUpdate(address, subscriptionStatus);
             DashboardDailyTrafficUpdate(subscriptionStatus);
         } catch (Exception e) {
+            System.out.println(e.hashCode());
             e.printStackTrace();
         }
 
@@ -73,8 +78,9 @@ public class Notification extends HttpServlet {
 
     public void DashboardDailyTrafficUpdate(String status) throws ClassNotFoundException, SQLException {
         DashboardDAO dashboardDAO = new DashboardDAO();
-        Date today = new Date();
-        String date = today.getDate() + "." + today.getMonth() + "." + today.getYear();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date dateObj = new Date();
+        String date = dateFormat.format(dateObj);
         if(dashboardDAO.dateAvailable(date)) {
             int reg = dashboardDAO.getRegCount(date);
             int unReg = dashboardDAO.getUnRegCount(date);

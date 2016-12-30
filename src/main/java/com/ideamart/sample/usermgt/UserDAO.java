@@ -18,7 +18,8 @@ public class UserDAO {
         connection = DatabaseConnection.getDBInstance().getConnection();
         stmt = connection.createStatement();
         String sql = "INSERT INTO tracking VALUES (" + "\"" + user.getAddress() + "\"" + "," + "\"" + user.getMessage() + "\"" +
-                "," + "\"" + user.getFlow() + "\"" + "," + "\"" + String.valueOf(user.getSubscription()) + "\"" + ");";
+                "," + "\"" + user.getFlow() + "\"" + "," + "\"" + String.valueOf(user.getSubscription())
+                + "\"" + "," + "\"" + String.valueOf(user.getStatus()) + "\"" + ");";
         System.out.println(sql);
         stmt.executeUpdate(sql);
         connection.close();
@@ -353,14 +354,11 @@ public class UserDAO {
                 address = resultSet.getString("address");
                 if(getUserStatus(address) == 1) {
                     reg++;
-                    updateUserStatus(address, 1);
 
                 } else if (getUserStatus(address) == 0) {
                     unReg++;
-                    updateUserStatus(address, 0);
                 } else {
                     pending++;
-                    updateUserStatus(address, 2);
                 }
             }
             array[0] = reg;
